@@ -7,13 +7,13 @@ namespace FruitStoreManager.Models
 {
     class Staff
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public int Age { get; set; }
-        public int Salary { get; set; }
-        public int TimeWork { get; set; }
+        public string Age { get; set; }
+        public string Salary { get; set; }
+        public string TimeWork { get; set; }
     }
 }

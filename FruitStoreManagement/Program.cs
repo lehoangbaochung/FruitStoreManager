@@ -1,7 +1,5 @@
-﻿using FruitStoreManager.Forms;
+﻿using FruitStoreManagement.Forms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace FruitStoreManager
@@ -16,7 +14,7 @@ namespace FruitStoreManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new StaffForm());
+            Application.Run(new LoginForm());
         }
     }
 }

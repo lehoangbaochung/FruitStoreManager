@@ -1,6 +1,9 @@
-﻿using FruitStoreManager.Databases;
-using FruitStoreManager.Forms;
+﻿using FruitStoreManager.Forms;
+using FruitStoreManager.Functions;
+using FruitStoreManager.Models;
+using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace FruitStoreManagement.Forms
@@ -12,17 +15,36 @@ namespace FruitStoreManagement.Forms
             InitializeComponent();
         }
 
-        private static void Check(string username, string password)
+        private static bool Check(string username, string password)
         {
-            var rows = Execute.SelectWhere("*", "Nguoidung", "ten = '" + username + ",'" + password + "'").Rows;
+            bool check = false;
 
-            if (rows.Count == 0)
-                MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else
+            foreach (var item in DataManagement.Read(@"Data\account.json")["account"])
             {
-                if (rows[3].ToString() == "1") new StaffForm().Show();
-                else new StaffForm().Show();
+                var account = new Account()
+                {
+                    Username = item["Username"],
+                    Password = item["Password"],
+                    Permission = item["Permission"]
+                };
+
+                if (account.Username == username && account.Password == password)
+                {
+                    check = true;
+
+                    if (account.Permission == "Admin")
+                    {
+
+                    }
+                    else
+                    {
+                        var form = new StaffForm();
+                        form.Show();
+                    }
+                }
             }
+
+            return check;
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
@@ -32,12 +54,23 @@ namespace FruitStoreManagement.Forms
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            Check(tbxUsername.Text, tbxPassword.Text);
+            if (!Check(tbxUsername.Text, tbxPassword.Text))
+                MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                Hide();
+
+            tbxUsername.ResetText();
+            tbxPassword.ResetText();
         }
 
         private void btnQuit_Click(object sender, EventArgs e)
         {
-            Close();
+            var result = MessageBox.Show("Are you sure to quit?", "Quit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
     }
 }
