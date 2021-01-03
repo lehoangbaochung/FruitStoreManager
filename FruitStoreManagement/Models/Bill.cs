@@ -6,7 +6,7 @@ namespace FruitStoreManager.Models
     {
         public string ID { get; set; }
         public string CustomerID { get; set; }
-        public string StaffID { get; set; }
+        public string EmployeeID { get; set; }
         public string Total { get; set; }
         public string PaymentMethod { get; set; }
     }
@@ -15,6 +15,7 @@ namespace FruitStoreManager.Models
     {
         public string BillID { get; set; }
         public string ProductID { get; set; }
+        public string ProductName { get; set; }
         public string Count { get; set; }
         public string Price { get; set; }
         public string Sum { get; set; }

@@ -13,11 +13,10 @@ namespace FruitStoreManager.Functions
     class BillManagement
     {
         static readonly string filePath = Path.Combine(Environment.CurrentDirectory, @"Data\bill.json");
-        public static readonly BindingList<Bill> BillsList = new BindingList<Bill>();
+        public static readonly BindingList<Bill> BindingList = new BindingList<Bill>();
         public static readonly List<BillDetail> BillsDetailList = new List<BillDetail>();
-        public static int sum = 0;
 
-        private static void BindBillDetail()
+        private static void BillDetail()
         {
             BillsDetailList.Clear();
 
@@ -38,7 +37,7 @@ namespace FruitStoreManager.Functions
 
         public static void Display(DataGridView dataGridView)
         {
-            BindBillDetail();
+            BillDetail();
 
             foreach (var item in DataManagement.Read(@"Data\bill.json")["bill"])
             {
@@ -46,7 +45,7 @@ namespace FruitStoreManager.Functions
                 {
                     ID = item["ID"],
                     CustomerID = item["CustomerID"],
-                    StaffID = item["StaffID"],
+                    EmployeeID = item["StaffID"],
                     PaymentMethod = item["PaymentMethod"]
                 };
 
@@ -60,10 +59,10 @@ namespace FruitStoreManager.Functions
 
                 bill.Total = total.ToString();
 
-                BillsList.Add(bill);
+                BindingList.Add(bill);
             }
 
-            dataGridView.DataSource = BillsList;   
+            dataGridView.DataSource = BindingList;   
         }
 
         public static string Detail(DataGridView dataGridView)

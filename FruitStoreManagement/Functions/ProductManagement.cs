@@ -10,7 +10,7 @@ namespace FruitStoreManager.Functions
     class ProductManagement
     {
         public static string filePath = Path.Combine(Environment.CurrentDirectory, @"Data\product.json");
-        public static readonly BindingList<Product> List = new BindingList<Product>();
+        public static readonly BindingList<Product> BindingList = new BindingList<Product>();
 
         public static void Display(DataGridView dataGridView)
         {
@@ -32,10 +32,10 @@ namespace FruitStoreManager.Functions
                     Description = item["Description"]
                 };
 
-                List.Add(product);
+                BindingList.Add(product);
             }
 
-            dataGridView.DataSource = List;
+            dataGridView.DataSource = BindingList;
         }
 
         public static void Add(DataGridView dataGridView)

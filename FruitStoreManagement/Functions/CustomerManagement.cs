@@ -11,7 +11,7 @@ namespace FruitStoreManager.Functions
     class CustomerManagement
     {
         public static string filePath = Path.Combine(Environment.CurrentDirectory, @"Data\customer.json");
-        public static readonly BindingList<Customer> CustomerList = new BindingList<Customer>();
+        public static readonly BindingList<Customer> BindingList = new BindingList<Customer>();
 
         public static void Display(DataGridView dataGridView)
         {
@@ -31,29 +31,42 @@ namespace FruitStoreManager.Functions
                         Email = item["Email"]
                     };
 
-                    CustomerList.Add(customer);
+                    BindingList.Add(customer);
                 }
             }
 
-            dataGridView.DataSource = CustomerList;
+            dataGridView.DataSource = BindingList;
         }
 
         public static void Add(DataGridView dataGridView)
         {
             var oldData = File.ReadAllText(filePath);
 
-            var customer = new Customer()
+            try
             {
-                ID = dataGridView.CurrentRow.Cells[0].Value.ToString(),
-                Name = dataGridView.CurrentRow.Cells[1].Value.ToString(),
-                Address = dataGridView.CurrentRow.Cells[2].Value.ToString(),
-                PhoneNumber = dataGridView.CurrentRow.Cells[3].Value.ToString(),
-                Email = dataGridView.CurrentRow.Cells[4].Value.ToString(),
-            };
+                var customer = new Customer()
+                {
+                    ID = dataGridView.RowCount.ToString(),
+                    Name = Check.Null(dataGridView.CurrentRow.Cells[1].Value?.ToString()),
+                    Address = Check.Null(dataGridView.CurrentRow.Cells[2].Value?.ToString()),
+                    PhoneNumber = Check.Integer(dataGridView.CurrentRow.Cells[3].Value?.ToString()),
+                    Email = Check.Email(dataGridView.CurrentRow.Cells[4].Value?.ToString()),
+                };
 
-            var newData = oldData.Substring(0, oldData.Length - 2) + "," + JsonConvert.SerializeObject(customer) + "]}";
+                if (customer == null) return;
 
-            File.WriteAllText(filePath, newData);
+                var newData = oldData.Substring(0, oldData.Length - 2) + "," + JsonConvert.SerializeObject(customer) + "]}";
+
+                File.WriteAllText(filePath, newData);
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Input format is not valid!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Input format is not valid!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
