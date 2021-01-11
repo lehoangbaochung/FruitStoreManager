@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FruitStoreManager.Models
+﻿namespace FruitStoreManager.Models
 {
     class Account
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Permission { get; set; }
+        public object Username { get; set; }
+        public object Password { get; set; }
+        public object Permission { get; set; }
     }
 }

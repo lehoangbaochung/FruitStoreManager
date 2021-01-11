@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvTable = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -45,12 +46,15 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
+            this.nudCount = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tabCtrl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudCount)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -119,6 +123,7 @@
             this.tbxSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxSearch.BackColor = System.Drawing.Color.White;
             this.tbxSearch.Location = new System.Drawing.Point(118, 3);
             this.tbxSearch.Name = "tbxSearch";
             this.tbxSearch.Size = new System.Drawing.Size(340, 20);
@@ -179,17 +184,21 @@
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 5;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanel3.ColumnCount = 7;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.Controls.Add(this.btnDetail, 4, 0);
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel3.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnDetail, 6, 0);
             this.tableLayoutPanel3.Controls.Add(this.tabCtrl, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btnDelete, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btnAdd, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btnEdit, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnDelete, 5, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnAdd, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnEdit, 4, 0);
+            this.tableLayoutPanel3.Controls.Add(this.nudCount, 2, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 307);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -202,9 +211,9 @@
             // 
             this.btnDetail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDetail.Enabled = false;
-            this.btnDetail.Location = new System.Drawing.Point(520, 3);
+            this.btnDetail.Location = new System.Drawing.Point(519, 3);
             this.btnDetail.Name = "btnDetail";
-            this.btnDetail.Size = new System.Drawing.Size(55, 19);
+            this.btnDetail.Size = new System.Drawing.Size(56, 19);
             this.btnDetail.TabIndex = 10;
             this.btnDetail.Text = "Detail";
             this.btnDetail.UseVisualStyleBackColor = true;
@@ -218,16 +227,16 @@
             this.tabCtrl.Location = new System.Drawing.Point(3, 3);
             this.tabCtrl.Name = "tabCtrl";
             this.tabCtrl.SelectedIndex = 0;
-            this.tabCtrl.Size = new System.Drawing.Size(340, 19);
+            this.tabCtrl.Size = new System.Drawing.Size(225, 19);
             this.tabCtrl.TabIndex = 9;
-            this.tabCtrl.SelectedIndexChanged += new System.EventHandler(this.tabctrl_SelectedIndexChanged);
+            this.tabCtrl.SelectedIndexChanged += new System.EventHandler(this.tabCtrl_SelectedIndexChanged);
             // 
             // tabPage1
             // 
             this.tabPage1.Location = new System.Drawing.Point(4, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(332, 0);
+            this.tabPage1.Size = new System.Drawing.Size(217, 0);
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Product";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -236,18 +245,19 @@
             // 
             this.btnDelete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDelete.Enabled = false;
-            this.btnDelete.Location = new System.Drawing.Point(463, 3);
+            this.btnDelete.Location = new System.Drawing.Point(462, 3);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(51, 19);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnAdd
             // 
             this.btnAdd.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnAdd.Enabled = false;
-            this.btnAdd.Location = new System.Drawing.Point(349, 3);
+            this.btnAdd.Location = new System.Drawing.Point(348, 3);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(51, 19);
             this.btnAdd.TabIndex = 0;
@@ -259,7 +269,7 @@
             // 
             this.btnEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnEdit.Enabled = false;
-            this.btnEdit.Location = new System.Drawing.Point(406, 3);
+            this.btnEdit.Location = new System.Drawing.Point(405, 3);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(51, 19);
             this.btnEdit.TabIndex = 1;
@@ -267,23 +277,47 @@
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
-            // UserForm
+            // nudCount
+            // 
+            this.nudCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudCount.Location = new System.Drawing.Point(291, 3);
+            this.nudCount.Name = "nudCount";
+            this.nudCount.Size = new System.Drawing.Size(51, 20);
+            this.nudCount.TabIndex = 11;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(234, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(51, 25);
+            this.label2.TabIndex = 13;
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.ClientSize = new System.Drawing.Size(730, 335);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "UserForm";
+            this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "F99 Fruit Store Manager";
-            this.Load += new System.EventHandler(this.UserForm_Load);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.tabCtrl.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudCount)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -307,5 +341,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.RichTextBox rtbxDetail;
         private System.Windows.Forms.ComboBox cbxFilter;
+        private System.Windows.Forms.NumericUpDown nudCount;
+        private System.Windows.Forms.Label label2;
     }
 }

@@ -15,26 +15,11 @@ namespace FruitStoreManager.Functions
         public static readonly BindingList<Account> AccountList = new BindingList<Account>();
         public static readonly BindingList<Employee> EmployeeList = new BindingList<Employee>();
 
-        public static void Detail(DataGridView dataGridView, RichTextBox richTextBox)
-        {
-            string detail = null;
-
-            var detailsList = BillDetailList.FindAll(s => s.BillID == dataGridView.CurrentRow.Cells[0].Value.ToString());
-
-            for (int i = 0; i < detailsList.Count; i++)
-            {
-                detail += string.Format("Product ID: {0}\nProduct name: {1}\nCount: {2}\nPrice: {3}\nSum: {4}\n\n",
-                    detailsList[i].ProductID, detailsList[i].ProductName, detailsList[i].Count, detailsList[i].Price, detailsList[i].Sum);
-            }
-
-            richTextBox.Text = detail;
-        }
-
         private static void BillDetail()
         {
             BillDetailList.Clear();
 
-            foreach (var item in DataManagement.Read(@"Data\billdetail.json")["billdetail"])
+            foreach (var item in Execute.Read("billdetail")["billdetail"])
             {
                 var detail = new BillDetail()
                 {
@@ -45,7 +30,7 @@ namespace FruitStoreManager.Functions
                     Price = item["Price"]
                 };
 
-                detail.Sum = (int.Parse(detail.Count) * int.Parse(detail.Price)).ToString();
+                detail.Sum = (int.Parse(detail.Count.ToString()) * int.Parse(detail.Price.ToString())).ToString();
 
                 BillDetailList.Add(detail);
             }
@@ -55,33 +40,38 @@ namespace FruitStoreManager.Functions
         {
             BillDetail();
 
-            foreach (var item in DataManagement.Read(@"Data\bill.json")["bill"])
+            foreach (var item in Execute.Read("bill")["bill"])
             {
                 var bill = new Bill()
                 {
                     ID = item["ID"],
-                    CustomerID = item["CustomerID"],
+                    CustomerName = item["CustomerName"],
                     EmployeeID = item["EmployeeID"],
+                    Time = item["Time"],
                     PaymentMethod = item["PaymentMethod"]
                 };
 
-                var list = BillDetailList.FindAll(s => s.BillID == bill.ID).ToList();
+                var list = BillDetailList.FindAll(s => s.BillID.ToString() == bill.ID.ToString()).ToList();
                 int total = 0;
 
-                foreach (var product in list) total += int.Parse(product.Sum);
+                foreach (var product in list) total += int.Parse(product.Sum.ToString());
 
                 bill.Total = total.ToString();
-
                 BillList.Add(bill);
             }
 
             dataGridView.DataSource = BillList;
+
+            //dataGridView.Columns["EmployeeID"].Visible = false;
+            //dataGridView.Columns["Time"].ReadOnly = true;
         }
 
         public static void Product(DataGridView dataGridView)
         {
-            foreach (var item in DataManagement.Read(@"Data\product.json")["product"])
+            foreach (var item in Execute.Read("product")["product"])
             {
+                if (item["ID"] == null) return;
+
                 var product = new Product()
                 {
                     ID = item["ID"],
@@ -93,7 +83,7 @@ namespace FruitStoreManager.Functions
                     ExpirationTime = item["ExpirationTime"],
                     Description = item["Description"]
                 };
-
+                
                 ProductList.Add(product);
             }
 
@@ -102,8 +92,10 @@ namespace FruitStoreManager.Functions
 
         public static void Customer(DataGridView dataGridView)
         {
-            foreach (var item in DataManagement.Read(@"Data\customer.json")["customer"])
+            foreach (var item in Execute.Read("customer")["customer"])
             {
+                if (item["ID"] == null) return;
+
                 var customer = new Customer()
                 {
                     ID = item["ID"],
@@ -121,8 +113,10 @@ namespace FruitStoreManager.Functions
 
         public static void Employee(DataGridView dataGridView)
         {
-            foreach (var item in DataManagement.Read(@"Data\employee.json")["employee"])
+            foreach (var item in Execute.Read("employee")["employee"])
             {
+                if (item["ID"] == null) return;
+
                 var Employee = new Employee()
                 {
                     ID = item["ID"],
@@ -142,8 +136,10 @@ namespace FruitStoreManager.Functions
 
         public static void Account(DataGridView dataGridView)
         {
-            foreach (var item in DataManagement.Read(@"Data\account.json")["account"])
+            foreach (var item in Execute.Read("account")["account"])
             {
+                if (item["ID"] == null) return;
+
                 var account = new Account()
                 {
                     Username = item["Username"],
@@ -155,6 +151,28 @@ namespace FruitStoreManager.Functions
             }
 
             dataGridView.DataSource = AccountList;
+        }
+
+        public static void Detail(DataGridView dataGridView, RichTextBox richTextBox)
+        {
+            richTextBox.ResetText();
+
+            var detailList = BillDetailList.FindAll(s => s.BillID.ToString() == dataGridView.CurrentRow.Cells[0].Value?.ToString());
+
+            foreach (var item in detailList)
+            {
+                richTextBox.Text += $"Product ID: {item.ProductID}\nProduct name: {item.ProductName}\nCount: {item.Count}\nPrice: {item.Price}\nSum: {item.Sum}\n\n";
+            }
+        }
+
+        public static void Cart(RichTextBox richTextBox)
+        {
+            richTextBox.ResetText();
+
+            foreach (var item in Item.DetailList)
+            {
+                richTextBox.Text += $"Product ID: {item.ProductID}\nProduct name: {item.ProductName}\nCount: {item.Count}\nPrice: {item.Price}\nSum: {item.Sum}\n\n";
+            }
         }
     }
 }

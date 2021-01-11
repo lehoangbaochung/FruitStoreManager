@@ -1,4 +1,4 @@
-﻿using FruitStoreManagement.Forms;
+﻿using FruitStoreManager.Forms;
 using System;
 using System.Windows.Forms;
 

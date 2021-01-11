@@ -1,4 +1,4 @@
-﻿namespace FruitStoreManagement.Forms
+﻿namespace FruitStoreManager.Forms
 {
     partial class LoginForm
     {
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.tbxPassword = new System.Windows.Forms.TextBox();
             this.tbxUsername = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
@@ -93,6 +94,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.ClientSize = new System.Drawing.Size(316, 193);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -100,6 +102,9 @@
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.tbxUsername);
             this.Controls.Add(this.tbxPassword);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ImeMode = System.Windows.Forms.ImeMode.On;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";

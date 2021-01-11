@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FruitStoreManager.Models
+﻿namespace FruitStoreManager.Models
 {
     class Bank
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public int PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
+        public object Name { get; set; }
+        public object Address { get; set; }
+        public object Email { get; set; }
+        public object PhoneNumber { get; set; }
+        public object Cost { get; set; }
     }
 }

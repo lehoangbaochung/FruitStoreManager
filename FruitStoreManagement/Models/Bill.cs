@@ -1,28 +1,22 @@
-﻿using System.Collections.Generic;
-
-namespace FruitStoreManager.Models
+﻿namespace FruitStoreManager.Models
 {
     class Bill
     {
-        public string ID { get; set; }
-        public string CustomerID { get; set; }
-        public string EmployeeID { get; set; }
-        public string Total { get; set; }
-        public string PaymentMethod { get; set; }
+        public object ID { get; set; }
+        public object CustomerName { get; set; }
+        public object EmployeeID { get; set; }
+        public object Time { get; set; }
+        public object Total { get; set; }
+        public object PaymentMethod { get; set; }
     }
 
     class BillDetail
     {
-        public string BillID { get; set; }
-        public string ProductID { get; set; }
-        public string ProductName { get; set; }
-        public string Count { get; set; }
-        public string Price { get; set; }
-        public string Sum { get; set; }
-
-        private string SumTotal()
-        {
-            return (int.Parse(Count) * double.Parse(Price)).ToString();
-        }
+        public object BillID { get; set; }
+        public object ProductID { get; set; }
+        public object ProductName { get; set; }
+        public object Count { get; set; }
+        public object Price { get; set; }
+        public object Sum { get; set; }
     }
 }

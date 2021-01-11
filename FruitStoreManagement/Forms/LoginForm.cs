@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace FruitStoreManagement.Forms
+namespace FruitStoreManager.Forms
 {
     public partial class LoginForm : Form
     {

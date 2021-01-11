@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-
-namespace FruitStoreManager.Models
+﻿namespace FruitStoreManager.Models
 {
     class Product
     {
-        public string ID { get; set; }
-        public string Name { get; set; }
-        public string Origin { get; set; }
-        public string Quantity { get; set; }
-        public string Price { get; set; }
-        public string ImportDate { get; set; }
-        public string ExpirationTime { get; set; }
-        public string Description { get; set; }
+        public object ID { get; set; }
+        public object Name { get; set; }
+        public object Origin { get; set; }
+        public object Quantity { get; set; }
+        public object Price { get; set; }
+        public object ImportDate { get; set; }
+        public object ExpirationTime { get; set; }
+        public object Description { get; set; }
     }
 }

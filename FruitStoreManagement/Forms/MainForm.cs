@@ -1,4 +1,5 @@
-﻿using FruitStoreManager.Events;
+﻿using FruitStoreManager.Models;
+using FruitStoreManager.Events;
 using FruitStoreManager.Functions;
 using System;
 using System.Windows.Forms;
@@ -12,7 +13,7 @@ namespace FruitStoreManager.Forms
             InitializeComponent();
         }
 
-        private void UserForm_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             //dgvTable.AutoGenerateColumns = false;
 
@@ -35,14 +36,36 @@ namespace FruitStoreManager.Forms
             //dgvTable.DataSource = dt;
             //dgvTable.Columns.AddRange(name, money);
 
-            Event.Load(this, Check.AccountInfo, tabCtrl);
+            Loaded.Form(this, Check.AccountInfo, tabCtrl);
         }
 
-        private void tabctrl_SelectedIndexChanged(object sender, EventArgs e)
+        private void tabCtrl_SelectedIndexChanged(object sender, EventArgs e)
         {
             tbxSearch.ResetText();
-            Event.TabControl(tabCtrl, cbxFilter, dgvTable, rtbxDetail);
-            Event.ButtonEnabled(tabCtrl, btnAdd, btnEdit, btnDelete, btnDetail);
+            Loaded.TabControl(tabCtrl, cbxFilter, dgvTable);
+
+            if (tabCtrl.SelectedTab.Text == "Product")
+            {
+                if (Check.AccountInfo.Permission.ToString() == "Admin")
+                {
+                    btnAdd.Enabled = true;
+                    btnEdit.Enabled = true;
+                    btnDelete.Enabled = true;
+                    btnDetail.Enabled = false;
+                }
+                else
+                {
+                    btnAdd.Enabled = true;
+                    btnEdit.Enabled = false;
+                    btnDelete.Enabled = false;
+                    btnDetail.Enabled = false;
+                    dgvTable.ReadOnly = true;
+                }
+            }
+            else
+            {
+                Loaded.Button(tabCtrl, btnAdd, btnEdit, btnDelete, btnDetail);
+            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -52,22 +75,67 @@ namespace FruitStoreManager.Forms
 
         private void btAdd_Click(object sender, EventArgs e)
         {
-            Clicked.ButtonAdd(tabCtrl, dgvTable, btnAdd);
+            if (tabCtrl.SelectedTab.Text == "Product")
+            {
+                if (Check.AccountInfo.Permission.ToString() == "Admin")
+                {
+                    Add.Product(dgvTable);
+                }
+                else
+                {
+                    Item.Add(dgvTable, nudCount);
+                    Display.Cart(rtbxDetail);
+
+                    if (Item.DetailList.Count == 0)
+                    {
+                        btnEdit.Enabled = false;
+                        btnDelete.Enabled = false;
+                    }
+                    else
+                    {
+                        btnEdit.Enabled = true;
+                        btnDelete.Enabled = true;
+                    }
+                }  
+            }
+            else
+                Clicked.ButtonAdd(tabCtrl, dgvTable, btnAdd);
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            Clicked.ButtonEdit(tabCtrl, dgvTable);
+            if (!Question.Edit()) return;
+
+            if (tabCtrl.SelectedTab.Text == "Product")
+            {
+                if (Check.AccountInfo.Permission.ToString() == "Admin")
+                    Execute.Edit(dgvTable, "product");
+                else
+                {
+                    Item.Edit(dgvTable, nudCount);
+                    Display.Cart(rtbxDetail);
+                }
+            }
+            else
+                Clicked.ButtonEdit(tabCtrl, dgvTable);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (!Question.Delete()) return;
+
+            Clicked.ButtonDelete(Check.AccountInfo, tabCtrl, dgvTable);
+            Display.Cart(rtbxDetail);
         }
 
         private void btnDetail_Click(object sender, EventArgs e)
         {
-            Clicked.ButtonDetails(tabCtrl, dgvTable, rtbxDetail);
+            Clicked.ButtonDetail(dgvTable, rtbxDetail);
         }
 
         private void btnLogOut_Click(object sender, EventArgs e)
         {
             Clicked.ButtonLogout(this);
-        }
+        } 
     }
 }

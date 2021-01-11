@@ -5,11 +5,16 @@ using System.Windows.Forms;
 
 namespace FruitStoreManager.Functions
 {
-    class DataManagement
+    class Execute
     {
-        public static dynamic Read(string filename)
+        public static string GetFilePath(string filename)
         {
-            using StreamReader sr = File.OpenText(Path.Combine(Environment.CurrentDirectory, filename));
+            return Path.Combine(Environment.CurrentDirectory, @"Data\" + filename + ".json");
+        }
+
+        public static dynamic Read(string fileName)
+        {
+            using StreamReader sr = File.OpenText(GetFilePath(fileName));
             var json = sr.ReadToEnd();
             dynamic array = JsonConvert.DeserializeObject(json);
             return array;
@@ -17,26 +22,24 @@ namespace FruitStoreManager.Functions
 
         public static void Edit(DataGridView dataGridView, string fileName)
         {
-            string filePath = Path.Combine(Environment.CurrentDirectory, @"Data\" + fileName + ".json");
-            var oldData = File.ReadAllText(filePath);
+            var oldData = File.ReadAllText(GetFilePath(fileName)).Trim();
 
             dynamic jsonObj = JsonConvert.DeserializeObject(oldData);
             jsonObj[fileName][dataGridView.CurrentRow.Index][dataGridView.CurrentCell.OwningColumn.Name] = dataGridView.CurrentCell.Value?.ToString();
 
             string newData = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-            File.WriteAllText(filePath, newData);
+            File.WriteAllText(GetFilePath(fileName), newData);
         }
 
         public static void Delete(DataGridView dataGridView, string fileName)
         {
-            string filePath = Path.Combine(Environment.CurrentDirectory, @"Data\" + fileName + ".json");
-            var oldData = File.ReadAllText(filePath);
+            var oldData = File.ReadAllText(GetFilePath(fileName));
 
             dynamic jsonObj = JsonConvert.DeserializeObject(oldData);
             jsonObj[fileName][dataGridView.CurrentRow.Index][dataGridView.CurrentRow.Cells[0].OwningColumn.Name] = null;
 
             string newData = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-            File.WriteAllText(filePath, newData);
+            File.WriteAllText(GetFilePath(fileName), newData);
         }
     }
 }
