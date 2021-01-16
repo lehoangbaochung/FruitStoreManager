@@ -40,14 +40,14 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnLogOut = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnDetail = new System.Windows.Forms.Button();
+            this.btnMore = new System.Windows.Forms.Button();
             this.tabCtrl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.nudCount = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -82,11 +82,14 @@
             // 
             this.dgvTable.AllowUserToAddRows = false;
             this.dgvTable.AllowUserToDeleteRows = false;
+            this.dgvTable.AllowUserToResizeRows = false;
             this.dgvTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvTable.Cursor = System.Windows.Forms.Cursors.Hand;
             this.dgvTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTable.Location = new System.Drawing.Point(3, 36);
             this.dgvTable.Name = "dgvTable";
+            this.dgvTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgvTable.Size = new System.Drawing.Size(578, 265);
             this.dgvTable.TabIndex = 3;
             // 
@@ -110,6 +113,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
@@ -148,6 +152,7 @@
             // 
             // rtbxDetail
             // 
+            this.rtbxDetail.BackColor = System.Drawing.SystemColors.Control;
             this.rtbxDetail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbxDetail.Location = new System.Drawing.Point(0, 0);
             this.rtbxDetail.Name = "rtbxDetail";
@@ -184,21 +189,19 @@
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 7;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel3.ColumnCount = 6;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel3.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btnDetail, 6, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnMore, 5, 0);
             this.tableLayoutPanel3.Controls.Add(this.tabCtrl, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btnDelete, 5, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btnAdd, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.btnEdit, 4, 0);
-            this.tableLayoutPanel3.Controls.Add(this.nudCount, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnDelete, 4, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnAdd, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnEdit, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.nudCount, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 307);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -207,27 +210,29 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(578, 25);
             this.tableLayoutPanel3.TabIndex = 10;
             // 
-            // btnDetail
+            // btnMore
             // 
-            this.btnDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnDetail.Enabled = false;
-            this.btnDetail.Location = new System.Drawing.Point(519, 3);
-            this.btnDetail.Name = "btnDetail";
-            this.btnDetail.Size = new System.Drawing.Size(56, 19);
-            this.btnDetail.TabIndex = 10;
-            this.btnDetail.Text = "Detail";
-            this.btnDetail.UseVisualStyleBackColor = true;
-            this.btnDetail.Click += new System.EventHandler(this.btnDetail_Click);
+            this.btnMore.BackColor = System.Drawing.Color.Transparent;
+            this.btnMore.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnMore.Enabled = false;
+            this.btnMore.Location = new System.Drawing.Point(520, 3);
+            this.btnMore.Name = "btnMore";
+            this.btnMore.Size = new System.Drawing.Size(55, 19);
+            this.btnMore.TabIndex = 10;
+            this.btnMore.Text = "More";
+            this.btnMore.UseVisualStyleBackColor = false;
+            this.btnMore.Click += new System.EventHandler(this.btnMore_Click);
             // 
             // tabCtrl
             // 
             this.tabCtrl.Alignment = System.Windows.Forms.TabAlignment.Bottom;
             this.tabCtrl.Controls.Add(this.tabPage1);
+            this.tabCtrl.Controls.Add(this.tabPage2);
             this.tabCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabCtrl.Location = new System.Drawing.Point(3, 3);
             this.tabCtrl.Name = "tabCtrl";
             this.tabCtrl.SelectedIndex = 0;
-            this.tabCtrl.Size = new System.Drawing.Size(225, 19);
+            this.tabCtrl.Size = new System.Drawing.Size(283, 19);
             this.tabCtrl.TabIndex = 9;
             this.tabCtrl.SelectedIndexChanged += new System.EventHandler(this.tabCtrl_SelectedIndexChanged);
             // 
@@ -236,72 +241,76 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(217, 0);
+            this.tabPage1.Size = new System.Drawing.Size(275, 0);
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Product";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 4);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(275, 0);
+            this.tabPage2.TabIndex = 2;
+            this.tabPage2.Text = "Request";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
             // btnDelete
             // 
+            this.btnDelete.BackColor = System.Drawing.Color.Transparent;
             this.btnDelete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDelete.Enabled = false;
-            this.btnDelete.Location = new System.Drawing.Point(462, 3);
+            this.btnDelete.Location = new System.Drawing.Point(463, 3);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(51, 19);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.btnDelete.UseVisualStyleBackColor = false;
             // 
             // btnAdd
             // 
+            this.btnAdd.BackColor = System.Drawing.Color.Transparent;
             this.btnAdd.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnAdd.Enabled = false;
-            this.btnAdd.Location = new System.Drawing.Point(348, 3);
+            this.btnAdd.Location = new System.Drawing.Point(349, 3);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(51, 19);
             this.btnAdd.TabIndex = 0;
             this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btAdd_Click);
+            this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnEdit
             // 
+            this.btnEdit.BackColor = System.Drawing.Color.Transparent;
             this.btnEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnEdit.Enabled = false;
-            this.btnEdit.Location = new System.Drawing.Point(405, 3);
+            this.btnEdit.Location = new System.Drawing.Point(406, 3);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(51, 19);
             this.btnEdit.TabIndex = 1;
             this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // nudCount
             // 
-            this.nudCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nudCount.Location = new System.Drawing.Point(291, 3);
+            this.nudCount.Location = new System.Drawing.Point(292, 3);
             this.nudCount.Name = "nudCount";
             this.nudCount.Size = new System.Drawing.Size(51, 20);
             this.nudCount.TabIndex = 11;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(234, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 25);
-            this.label2.TabIndex = 13;
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.nudCount.ThousandsSeparator = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(730, 335);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -315,7 +324,6 @@
             this.tableLayoutPanel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
             this.tabCtrl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudCount)).EndInit();
             this.ResumeLayout(false);
@@ -336,12 +344,12 @@
         private System.Windows.Forms.Button btnLogOut;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Button btnDetail;
+        private System.Windows.Forms.Button btnMore;
         private System.Windows.Forms.TabControl tabCtrl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.RichTextBox rtbxDetail;
         private System.Windows.Forms.ComboBox cbxFilter;
         private System.Windows.Forms.NumericUpDown nudCount;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }

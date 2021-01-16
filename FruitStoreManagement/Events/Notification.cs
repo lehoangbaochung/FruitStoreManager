@@ -33,10 +33,16 @@ namespace FruitStoreManager.Events
     {
         public static void LoginPermission(Account account)
         {
-            if (account.Permission.ToString() == "Admin")
+            if (account.Permission.ToString() == "Quản lý")
                 MessageBox.Show("You are logged in as an administrator!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
+
+            if (account.Permission.ToString() == "Nhân viên")
                 MessageBox.Show("You are logged in as an employee!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public static void Successfully()
+        {
+            MessageBox.Show("Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 

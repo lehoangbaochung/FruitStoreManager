@@ -1,7 +1,7 @@
-﻿using FruitStoreManager.Forms;
-using FruitStoreManager.Models;
-using FruitStoreManager.Functions;
+﻿using FruitStoreManager.Models;
 using System.Windows.Forms;
+using System.Linq;
+using FruitStoreManager.Forms;
 
 namespace FruitStoreManager.Events
 {
@@ -11,23 +11,12 @@ namespace FruitStoreManager.Events
         
         public static bool Account(string username, string password)
         {
-            foreach (var item in Execute.Read("account")["account"])
-            {
-                AccountInfo = new Account()
-                {
-                    Username = item["Username"],
-                    Password = item["Password"],
-                    Permission = item["Permission"]
-                };
+            AccountInfo = BindingList.Account.ToList().Find(s => s.ID.ToString() == username && s.Password.ToString() == password);
 
-                if (AccountInfo.Username.ToString() == username && AccountInfo.Password.ToString() == password)
-                {
-                    new MainForm().Show();
-                    return true;
-                }
-            }
+            if (AccountInfo == null) return false;
 
-            return false;
+            new MainForm().Show();
+            return true;
         }
 
         public static bool Product(DataGridView dataGridView)
@@ -73,7 +62,7 @@ namespace FruitStoreManager.Events
 
         public static bool Cart()
         {
-            if (Item.DetailList.Count == 0) return false;
+            if (List.Cart.Count == 0) return false;
             else return true;
         }
     }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FruitStoreManager.Models;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -20,15 +21,48 @@ namespace FruitStoreManager.Functions
             return array;
         }
 
-        public static void Edit(DataGridView dataGridView, string fileName)
+        public static void Insert(MainElement main)
         {
-            var oldData = File.ReadAllText(GetFilePath(fileName)).Trim();
+            switch (main.TabControl.SelectedTab.Text)
+            {
+                case "Account":
+                    Add.Account(main.DataGridView);
+                    break;
+                case "Bill":
+                    Add.Bill(main.DataGridView);
+                    break;
+                case "Customer":
+                    Add.Customer(main.DataGridView);
+                    break;
+                case "Employee":
+                    Add.Employee(main.DataGridView);
+                    break;
+                case "Product":
+                    Add.Product(main.DataGridView);
+                    break;
+            }    
+        }
 
-            dynamic jsonObj = JsonConvert.DeserializeObject(oldData);
-            jsonObj[fileName][dataGridView.CurrentRow.Index][dataGridView.CurrentCell.OwningColumn.Name] = dataGridView.CurrentCell.Value?.ToString();
-
-            string newData = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-            File.WriteAllText(GetFilePath(fileName), newData);
+        public static void Update(MainElement main)
+        {
+            switch (main.TabControl.SelectedTab.Text)
+            {
+                case "Account":
+                    Edit.Data(main, "account");
+                    break;
+                case "Bill":
+                    Edit.Data(main, "bill");
+                    break;
+                case "Customer":
+                    Edit.Data(main, "customer");
+                    break;
+                case "Employee":
+                    Edit.Data(main, "employee");
+                    break;
+                case "Product":
+                    Edit.Data(main, "product");
+                    break;
+            }
         }
 
         public static void Delete(DataGridView dataGridView, string fileName)

@@ -4,10 +4,10 @@
     {
         public object ID { get; set; }
         public object CustomerName { get; set; }
+        public object PaymentMethod { get; set; }
         public object EmployeeID { get; set; }
         public object Time { get; set; }
         public object Total { get; set; }
-        public object PaymentMethod { get; set; }
     }
 
     class BillDetail

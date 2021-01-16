@@ -2,7 +2,7 @@
 {
     class Account
     {
-        public object Username { get; set; }
+        public object ID { get; set; }
         public object Password { get; set; }
         public object Permission { get; set; }
     }

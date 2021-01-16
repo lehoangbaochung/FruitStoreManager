@@ -8,7 +8,7 @@
         public object Quantity { get; set; }
         public object Price { get; set; }
         public object ImportDate { get; set; }
-        public object ExpirationTime { get; set; }
+        public object Expiration { get; set; }
         public object Description { get; set; }
     }
 }
