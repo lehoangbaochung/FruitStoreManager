@@ -1,0 +1,44 @@
+{
+  "product": [
+    {
+      "ID": 1,
+      "Name": "Nho sữa",
+      "Origin": "Lâm Đồng",
+      "Quantity": 22.6,
+      "Price": 50000,
+      "ImportDate": "13-12-20",
+      "Expiration": "1",
+      "Description": null
+    },
+    {
+      "ID": 2,
+      "Name": "Bưởi Diễn",
+      "Origin": "Hà Nội",
+      "Quantity": 22.0,
+      "Price": 15000,
+      "ImportDate": "24-12-20",
+      "Expiration": "12",
+      "Description": null
+    },
+    {
+      "ID": 3,
+      "Name": "Táo xanh",
+      "Origin": "Ninh Thuận",
+      "Quantity": 18.8,
+      "Price": 25000,
+      "ImportDate": "28-12-20",
+      "Expiration": "3",
+      "Description": null
+    },
+    {
+      "ID": "4",
+      "Name": "Mơ ngọt",
+      "Origin": "Bình Phước",
+      "Quantity": 7.5,
+      "Price": "10000",
+      "ImportDate": "13-01-21",
+      "Expiration": "5",
+      "Description": null
+    }
+  ]
+}

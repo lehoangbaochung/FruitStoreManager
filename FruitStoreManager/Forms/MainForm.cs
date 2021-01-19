@@ -112,16 +112,17 @@ namespace FruitStoreManager.Forms
             {
                 Add.Cart(main.DataGridView, main.NumericUpDown);
                 Display.Cart(main);
+                nudCount.ResetText();
 
                 if (List.Cart.Count == 0)
                 {
-                    btnEdit.Enabled = true;
-                    btnDelete.Enabled = true;
+                    btnEdit.Enabled = false;
+                    btnDelete.Enabled = false;
                 }
                 else
                 {
-                    btnEdit.Enabled = false;
-                    btnDelete.Enabled = false;
+                    btnEdit.Enabled = true;
+                    btnDelete.Enabled = true;
                 }
             } 
             else
@@ -131,6 +132,11 @@ namespace FruitStoreManager.Forms
                     btnAdd.Text = "Save";
                     dgvTable.ReadOnly = false;
                     dgvTable.AllowUserToAddRows = true;
+                    ///
+                    btnEdit.Enabled = false;
+                    btnDelete.Enabled = false;
+                    btnMore.Enabled = false;
+                    btnSearch.Enabled = false;
                 }  
                 else if (btnAdd.Text == "Save")
                 {
@@ -142,8 +148,12 @@ namespace FruitStoreManager.Forms
                     dgvTable.ReadOnly = true;
                     dgvTable.AllowUserToAddRows = false;
                     ///
+                    btnEdit.Enabled = true;
+                    btnDelete.Enabled = true;
+                    btnMore.Enabled = true;
+                    btnSearch.Enabled = true;
+                    ///
                     Execute.Insert(main);
-                    MessageBox.Show("Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }    
             }    
         }
@@ -169,6 +179,11 @@ namespace FruitStoreManager.Forms
                 {
                     btnEdit.Text = "Save";
                     dgvTable.ReadOnly = false;
+                    ///
+                    btnAdd.Enabled = false;
+                    btnDelete.Enabled = false;
+                    btnMore.Enabled = false;
+                    btnSearch.Enabled = false;
                 }
                 else if (btnEdit.Text == "Save")
                 {
@@ -178,6 +193,11 @@ namespace FruitStoreManager.Forms
                     ///
                     btnEdit.Text = "Edit";
                     dgvTable.ReadOnly = true;
+                    ///
+                    btnAdd.Enabled = true;
+                    btnDelete.Enabled = true;
+                    btnSearch.Enabled = true;
+                    btnMore.Enabled = true;
                     ///
                     Execute.Update(main);
                     MessageBox.Show("Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);

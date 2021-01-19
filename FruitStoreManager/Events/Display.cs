@@ -28,7 +28,6 @@ namespace FruitStoreManager.Events
             main.ComboBox.Items.AddRange(new string[] { "ID", "Permission" });
             ///
             main.DataGridView.DataSource = BindingList.Account;
-            main.DataGridView.Rows[0].ReadOnly = true;
             ///
             main.ButtonAdd.Enabled = true;
             main.ButtonEdit.Enabled = true;
@@ -47,12 +46,16 @@ namespace FruitStoreManager.Events
             ///
             main.ButtonEdit.Enabled = false;
             main.ButtonDelete.Enabled = false;
-            main.ButtonMore.Enabled = true;
 
             if (List.Cart.Count == 0)
                 main.ButtonAdd.Enabled = false;
             else
                 main.ButtonAdd.Enabled = true;
+
+            if (BindingList.Bill.Count == 0)
+                main.ButtonMore.Enabled = false;
+            else
+                main.ButtonMore.Enabled = true;
 
             main.ButtonMore.Text = "Detail";
         }
@@ -98,6 +101,7 @@ namespace FruitStoreManager.Events
             main.ComboBox.Items.AddRange(new string[] { "Name", "Age", "Address", "Phone number", "Salary", "Worktime" });
             ///
             main.DataGridView.DataSource = BindingList.Employee;
+            main.DataGridView.Columns["EmployeeID"].Visible = true;
             ///
             main.ButtonAdd.Enabled = true;
             main.ButtonEdit.Enabled = true;

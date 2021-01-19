@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace FruitStoreManager.Functions
 {
-    class Edit
+    internal class Edit
     {
         public static void Quantity()
         {
@@ -16,7 +16,7 @@ namespace FruitStoreManager.Functions
 
             foreach (var item in List.Cart)
             {
-                jsonObj["product"][int.Parse(item.ProductID.ToString())]["Quantity"] -= item.Count;
+                jsonObj["product"][int.Parse(item.ProductID.ToString()) - 1]["Quantity"] -= item.Count;
             }
 
             string newData = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);

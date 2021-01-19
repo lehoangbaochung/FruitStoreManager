@@ -6,7 +6,8 @@ namespace FruitStoreManager.Functions
     {
         public static void Data(Account account)
         {
-            BindingList.Account.Clear();
+            List.BillDetail.Clear();
+            List.Cart.Clear();
             BindingList.Bill.Clear();
             BindingList.Customer.Clear();
             BindingList.Employee.Clear();

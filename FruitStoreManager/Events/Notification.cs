@@ -3,15 +3,15 @@ using System.Windows.Forms;
 
 namespace FruitStoreManager.Events
 {
-    class Error
+    internal class Error
     {
         public static void Login()
         {
             MessageBox.Show("Username or Password is not valid!", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-    }   
-    
-    class Warning
+    }
+
+    internal class Warning
     {
         public static void InputFormat()
         {
@@ -20,16 +20,26 @@ namespace FruitStoreManager.Events
 
         public static void NullValue()
         {
-            MessageBox.Show("These values can't be null!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("This value can't be null!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        public static void ExistItem()
+        public static void Exist()
         {
-            MessageBox.Show("This item was added into your cart!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("This value was exist!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        public static void SpecialCharacter()
+        {
+            MessageBox.Show("This value can't contain special character(s)!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        public static void Exceed()
+        {
+            MessageBox.Show("Input value have exceeded max value!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 
-    class Information
+    internal class Information
     {
         public static void LoginPermission(Account account)
         {
@@ -46,7 +56,7 @@ namespace FruitStoreManager.Events
         }
     }
 
-    class Question
+    internal class Question
     {
         public static bool Logout()
         {

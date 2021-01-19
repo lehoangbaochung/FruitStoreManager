@@ -10,6 +10,7 @@ namespace FruitStoreManager.Forms
         public LoginForm()
         {
             InitializeComponent();
+            Execute.CreateFiles();
             Get.Account();
         }
 
@@ -19,9 +20,11 @@ namespace FruitStoreManager.Forms
 
             if (button == btnLogin)
             {
-                if (Check.Account(tbxUsername.Text, tbxPassword.Text)) 
+                if (Check.Login(tbxUsername.Text, tbxPassword.Text))
+                {
                     Hide();
-                else 
+                }
+                else
                     Error.Login();
             }
 
@@ -34,6 +37,11 @@ namespace FruitStoreManager.Forms
 
             tbxUsername.ResetText();
             tbxPassword.ResetText();
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

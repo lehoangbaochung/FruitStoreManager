@@ -8,12 +8,31 @@ using System.Windows.Forms;
 
 namespace FruitStoreManager.Functions
 {
-    class Add
+    internal class Add
     {
+        private static void Value(string fileName, object obj)
+        {
+            var oldData = File.ReadAllText(Execute.GetFilePath(fileName)).Trim();
+            var subString = oldData.Remove(oldData.Length - 2);
+
+            if (subString.EndsWith("]")) // exception substring has issue
+            {
+                subString = subString.Remove(oldData.Length - 1);
+            }
+
+            string newData;
+
+            if (subString.EndsWith("[")) // add first value
+                newData = subString + JsonConvert.SerializeObject(obj) + "]}";
+            else // another values
+                newData = subString + "," + JsonConvert.SerializeObject(obj) + "]}";
+
+            File.WriteAllText(Execute.GetFilePath(fileName), newData);
+            MessageBox.Show("Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         public static void Account(DataGridView dataGridView)
         {
-            var oldData = File.ReadAllText(Execute.GetFilePath("account")).Trim();
-
             var account = new Account()
             {
                 ID = dataGridView.CurrentRow.Cells["ID"].Value,
@@ -21,52 +40,45 @@ namespace FruitStoreManager.Functions
                 Permission = dataGridView.CurrentRow.Cells["Permission"].Value
             };
 
-            var newData = oldData.Remove(oldData.Length - 2) + "," + JsonConvert.SerializeObject(account) + "]}";
+            if (!Check.Account(account)) return;
 
-            File.WriteAllText(Execute.GetFilePath("account"), newData);
+            Value("account", account);
         }
 
         public static void BillDetail() // thêm các item trong giỏ vào file billdetail
         {
-            var oldData = File.ReadAllText(Execute.GetFilePath("billdetail")).Trim();
-
             string newItem = null;
 
-            foreach (var item in List.Cart) newItem += JsonConvert.SerializeObject(item) + ",";
-
-            var newData = oldData.Remove(oldData.Length - 2) + "," + newItem.Substring(0, newItem.Length - 1) + "]}";
-
-            File.WriteAllText(Execute.GetFilePath("billdetail"), newData);
+            foreach (var item in List.Cart)
+            {
+                newItem += JsonConvert.SerializeObject(item) + ",";
+                Value("billdetail", item);
+            }
         }
 
         public static void Bill(DataGridView dataGridView)
         {
             BillDetail();
 
-            var oldData = File.ReadAllText(Execute.GetFilePath("bill")).Trim();
-
             var bill = new Bill()
             {
-                ID = BindingList.Bill.Count,
+                ID = BindingList.Bill.Count + 1,
                 EmployeeID = Check.AccountInfo.ID,
                 CustomerName = dataGridView.CurrentRow.Cells["CustomerName"].Value,
                 PaymentMethod = dataGridView.CurrentRow.Cells["PaymentMethod"].Value,
                 Time = DateTime.Now.ToString("dd-MM-yy hh:mm tt")
             };
 
+            if (!Check.Bill(bill)) return;
+
             // tính tổng tiền các item trong giỏ
             var total = 0;
 
-            foreach (var item in List.Cart)
-            {
-                total += int.Parse(item.Sum.ToString());
-            }
+            foreach (var item in List.Cart) total += int.Parse(item.Sum.ToString());
 
             bill.Total = total;
 
-            var newData = oldData.Remove(oldData.Length - 2) + "," + JsonConvert.SerializeObject(bill) + "]}";
-
-            File.WriteAllText(Execute.GetFilePath("bill"), newData);
+            Value("bill", bill);
 
             // sửa lại số lượng trong kho và xóa trắng giỏ hàng
             Edit.Quantity();
@@ -75,9 +87,10 @@ namespace FruitStoreManager.Functions
 
         public static void Cart(DataGridView dataGridView, NumericUpDown numericUpDown)
         {
+            if (!Check.Cart(dataGridView, numericUpDown)) return;
+
             var currentRow = dataGridView.CurrentRow;
 
-            if (numericUpDown.Value == 0) return;
             // tính thành tiền cho item được thêm vào giỏ
             var sum = numericUpDown.Value * decimal.Parse(currentRow.Cells["Price"].Value?.ToString());
             // tìm item có trong giỏ theo ID
@@ -85,7 +98,7 @@ namespace FruitStoreManager.Functions
 
             if (value != null) // nếu item đã có trong giỏ
             {
-                Warning.ExistItem();
+                Warning.Exist();
                 return;
             }
 
@@ -110,8 +123,6 @@ namespace FruitStoreManager.Functions
 
         public static void Customer(DataGridView dataGridView)
         {
-            var oldData = File.ReadAllText(Execute.GetFilePath("customer")).Trim();
-
             var customer = new Customer()
             {
                 ID = dataGridView.RowCount.ToString(),
@@ -121,15 +132,13 @@ namespace FruitStoreManager.Functions
                 Email = dataGridView.CurrentRow.Cells["Email"].Value
             };
 
-            var newData = oldData.Remove(oldData.Length - 2) + "," + JsonConvert.SerializeObject(customer) + "]}";
+            if (!Check.Customer(customer)) return;
 
-            File.WriteAllText(Execute.GetFilePath("customer"), newData);
+            Value("customer", customer);
         }
 
         public static void Employee(DataGridView dataGridView)
         {
-            var oldData = File.ReadAllText(Execute.GetFilePath("employee")).Trim();
-
             var employee = new Employee()
             {
                 ID = dataGridView.RowCount.ToString(),
@@ -141,15 +150,14 @@ namespace FruitStoreManager.Functions
                 Worktime = dataGridView.CurrentRow.Cells["Worktime"].Value
             };
 
-            var newData = oldData.Remove(oldData.Length - 2) + "," + JsonConvert.SerializeObject(employee) + "]}";
+            if (!Check.Employee(employee)) return;
 
-            File.WriteAllText(Execute.GetFilePath("employee"), newData);
+            Value("employee", employee);
+            Request(employee);
         }
 
         public static void Product(DataGridView dataGridView)
         {
-            var oldData = File.ReadAllText(Execute.GetFilePath("product")).Trim();
-
             var product = new Product()
             {
                 ID = dataGridView.RowCount.ToString(),
@@ -162,9 +170,24 @@ namespace FruitStoreManager.Functions
                 Description = dataGridView.CurrentRow.Cells["Description"].Value
             };
 
-            var newData = oldData.Remove(oldData.Length - 2) + "," + JsonConvert.SerializeObject(product) + "]}";
+            if (!Check.Product(product)) return;
 
-            File.WriteAllText(Execute.GetFilePath("product"), newData);
+            Value("product", product);
+        }
+
+        private static void Request(Employee employee)
+        {
+            var request = new Request[]
+            {
+                new Request() { EmployeeID = employee.ID, Title = "Sửa thông tin" },
+                new Request() { EmployeeID = employee.ID, Title = "Chấm công" },
+                new Request() { EmployeeID = employee.ID, Title = "Nghỉ việc"}
+            };
+
+            foreach (var item in request)
+            {
+                Value("request", item);
+            }    
         }
     }
 }

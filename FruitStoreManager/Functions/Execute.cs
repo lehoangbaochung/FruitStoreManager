@@ -1,21 +1,58 @@
 ﻿using FruitStoreManager.Models;
 using Newtonsoft.Json;
-using System;
 using System.IO;
 using System.Windows.Forms;
 
 namespace FruitStoreManager.Functions
 {
-    class Execute
+    internal class Execute
     {
-        public static string GetFilePath(string filename)
+        private static readonly string FolderPath = Directory.CreateDirectory(@"D:\FruitStoreManager\Resources").FullName;
+
+        public static string GetFilePath(string fileName)
         {
-            return Path.Combine(Environment.CurrentDirectory, @"Data\" + filename + ".json");
+            return FolderPath + @"\" + fileName + ".json";
+        }
+
+        public static void CreateFiles()
+        {
+            var filesName = new string[] { "account", "bill", "billdetail", "customer", "employee", "product", "request", "statistic" };
+
+            foreach (var item in filesName)
+            {
+                var path = FolderPath + @"\" + item + ".json";
+
+                if (!File.Exists(path))
+                {
+                    File.Create(path).Close();
+
+                    if (item == "account")
+                    {
+                        TextWriter tw = new StreamWriter(path);
+                        tw.WriteLine("{\"" + item + "\":[{\"ID\":\"admin\",\"Password\":\"admin\",\"Permission\":\"Quản lý\"}]}");
+                        tw.Close();
+                    }
+                    else if (item == "request")
+                    {
+                        TextWriter tw = new StreamWriter(path);
+                        tw.WriteLine("{\"" + item + "\": [{\"EmployeeID\":null,\"Title\":\"Sửa thông tin\",\"Content\":null,\"Time\":null,\"Status\":null},{\"" +
+                            "\"EmployeeID\":null,\"Title\":\"Chấm công\",\"Content\":null,\"Time\":null,\"Status\":null},{\"EmployeeID\": null,\"Title\":\"Nghỉ việc\"" +
+                            ",\"Content\":null,\"Time\":null,\"Status\":null}]}");
+                        tw.Close();
+                    }    
+                    else
+                    {
+                        TextWriter tw = new StreamWriter(path);
+                        tw.WriteLine("{\"" + item + "\": []}");
+                        tw.Close();
+                    }    
+                }
+            }
         }
 
         public static dynamic Read(string fileName)
         {
-            using StreamReader sr = File.OpenText(GetFilePath(fileName));
+            using var sr = File.OpenText(GetFilePath(fileName));
             var json = sr.ReadToEnd();
             dynamic array = JsonConvert.DeserializeObject(json);
             return array;

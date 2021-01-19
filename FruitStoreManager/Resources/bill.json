@@ -1,0 +1,16 @@
+{"bill": [
+    {
+      "ID": 1,
+      "CustomerName": "Lê Hải Nam",
+      "EmployeeID": "nv1",
+"Time": "25-12-20 08:36 AM",
+"Total":255000,
+	"PaymentMethod": "Trực tiếp"
+    },
+    {
+      "ID": 2,
+      "CustomerName": "Đào Minh Dương",
+      "EmployeeID": "nv1",
+"Time": "23-12-20 09:41 AM","Total":160000,
+	"PaymentMethod": "Trực tuyến"
+    },{"ID":3,"CustomerName":"Nguyễn Ngọc Anh","EmployeeID":"nv2","Time":"11-01-21 12:04 PM","Total":100000,"PaymentMethod":"Trực tuyến"},{"ID":4,"CustomerName":"Vũ Thị Hà","EmployeeID":"nv1","Time":"12-01-21 06:09 PM","Total":126500,"PaymentMethod":"Trực tiếp"},{"ID":5,"CustomerName":"Trần Duy Khánh","EmployeeID":"nv1","Time":"13-01-21 11:07 AM","Total":133000,"PaymentMethod":null},{"ID":6,"CustomerName":"Võ Bảo Xuyến","EmployeeID":"nv2","Time":"13-01-21 02:47 PM","Total":110000,"PaymentMethod":"Trực tiếp"},{"ID":7,"CustomerName":"Tạ Thành Thắng","EmployeeID":"nv2","Time":"13-01-21 03:13 PM","Total":95000,"PaymentMethod":"Trực tuyến"},{"ID":8,"CustomerName":"Hà Trọng Hiếu","PaymentMethod":"Trực tiếp","EmployeeID":"nv2","Time":"13-01-21 03:24 PM","Total":90000},{"ID":9,"CustomerName":"Đào Minh Dương","PaymentMethod":"Trực tuyến","EmployeeID":"nv2","Time":"13-01-21 03:29 PM","Total":205000},{"ID":9,"CustomerName":"Lê Hải Nam","PaymentMethod":"Trực tiếp","EmployeeID":"nv2","Time":"15-01-21 10:37 AM","Total":165000},{"ID":9,"CustomerName":"Lê Hải Nam","PaymentMethod":"Trực tiếp","EmployeeID":"nv2","Time":"15-01-21 10:37 AM","Total":165000},{"ID":9,"CustomerName":"Lê Hải Nam","PaymentMethod":"Trực tiếp","EmployeeID":"nv2","Time":"15-01-21 10:37 AM","Total":165000},{"ID":13,"CustomerName":"Robert Lee","PaymentMethod":"Trực tuyến","EmployeeID":"nv2","Time":"15-01-21 03:07 PM","Total":15000},{"ID":14,"CustomerName":"Đỗ Phương Anh","PaymentMethod":"Trực tiếp","EmployeeID":"nv2","Time":"16-01-21 09:12 PM","Total":105000}]}

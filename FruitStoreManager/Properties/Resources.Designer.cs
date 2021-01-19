@@ -59,5 +59,85 @@ namespace FruitStoreManager.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] account {
+            get {
+                object obj = ResourceManager.GetObject("account", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] bill {
+            get {
+                object obj = ResourceManager.GetObject("bill", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] billdetail {
+            get {
+                object obj = ResourceManager.GetObject("billdetail", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] customer {
+            get {
+                object obj = ResourceManager.GetObject("customer", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] employee {
+            get {
+                object obj = ResourceManager.GetObject("employee", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] product {
+            get {
+                object obj = ResourceManager.GetObject("product", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] request {
+            get {
+                object obj = ResourceManager.GetObject("request", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] statistic {
+            get {
+                object obj = ResourceManager.GetObject("statistic", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
