@@ -19,7 +19,7 @@ namespace FruitStoreManager.Events
                 main.TabControl.TabPages.Insert(2, "Customer");
             }
 
-            main.Form.Text = "F99 Fruit Store Manager - Permission: " + account.Permission + " - ID: " + account.ID;
+            main.Form.Text = "F99 Fruit Store Manager - Permission: " + account.Permission + " - Username: " + account.Username;
             Information.LoginPermission(account);
         }
 
@@ -28,6 +28,7 @@ namespace FruitStoreManager.Events
             main.ComboBox.Items.AddRange(new string[] { "ID", "Permission" });
             ///
             main.DataGridView.DataSource = BindingList.Account;
+            main.DataGridView.Columns["ID"].Visible = false;
             ///
             main.ButtonAdd.Enabled = true;
             main.ButtonEdit.Enabled = true;
@@ -39,13 +40,15 @@ namespace FruitStoreManager.Events
 
         public static void Bill(MainElement main)
         {
-            main.ComboBox.Items.AddRange(new string[] { "Name", "Address", "Phone Number", "Email" });
+            main.ComboBox.Items.AddRange(new string[] { "Customer name", "Time", "Total", "Payment method" });
             ///
             main.DataGridView.DataSource = BindingList.Bill;
+            main.DataGridView.Columns["ID"].Visible = false;
             main.DataGridView.Columns["EmployeeID"].Visible = false;
             ///
             main.ButtonEdit.Enabled = false;
             main.ButtonDelete.Enabled = false;
+            main.NumericUpDown.Visible = false;
 
             if (List.Cart.Count == 0)
                 main.ButtonAdd.Enabled = false;
@@ -64,7 +67,7 @@ namespace FruitStoreManager.Events
         {
             main.RichTextBox.ResetText();
 
-            var detailList = List.BillDetail.FindAll(s => s.BillID.ToString() == main.DataGridView.CurrentRow.Cells["ID"].Value?.ToString());
+            var detailList = List.BillDetail.FindAll(s => s.BillID.Equals(main.DataGridView.CurrentRow.Cells["ID"].Value));
 
             foreach (var item in detailList)
             {
@@ -87,6 +90,7 @@ namespace FruitStoreManager.Events
             main.ComboBox.Items.AddRange(new string[] { "Name", "Address", "Phone Number", "Email" });
             ///
             main.DataGridView.DataSource = BindingList.Customer;
+            main.DataGridView.Columns["ID"].Visible = false;
             ///
             main.ButtonAdd.Enabled = true;
             main.ButtonEdit.Enabled = true;
@@ -98,15 +102,16 @@ namespace FruitStoreManager.Events
 
         public static void Employee(MainElement main)
         {
-            main.ComboBox.Items.AddRange(new string[] { "Name", "Age", "Address", "Phone number", "Salary", "Worktime" });
+            main.ComboBox.Items.AddRange(new string[] { "Employee ID", "Name", "Age", "Address", "Phone number", "Salary", "Worktime" });
             ///
             main.DataGridView.DataSource = BindingList.Employee;
-            main.DataGridView.Columns["EmployeeID"].Visible = true;
+            main.DataGridView.Columns["ID"].Visible = false;
             ///
             main.ButtonAdd.Enabled = true;
             main.ButtonEdit.Enabled = true;
             main.ButtonDelete.Enabled = true;
             main.ButtonMore.Enabled = false;
+            main.NumericUpDown.Visible = false;
 
             main.ButtonMore.Text = "More";
         }    
@@ -123,6 +128,7 @@ namespace FruitStoreManager.Events
                 main.ButtonEdit.Enabled = true;
                 main.ButtonDelete.Enabled = true;
                 main.ButtonMore.Enabled = false;
+                main.NumericUpDown.Visible = false;
 
                 main.ButtonMore.Text = "More";
             }
@@ -149,32 +155,46 @@ namespace FruitStoreManager.Events
             ///
             main.DataGridView.DataSource = BindingList.Request;
             ///
+            main.ButtonDelete.Enabled = false;
+            main.ButtonMore.Enabled = true;
+            main.NumericUpDown.Visible = false;
+
+            main.ButtonMore.Text = "Detail";
+
             if (account.Permission.ToString() == "Quản lý")
             {
                 main.ButtonAdd.Enabled = false;
                 main.ButtonEdit.Enabled = true;
-                main.ButtonDelete.Enabled = false;
-                main.ButtonMore.Enabled = false;
-
-                main.ButtonMore.Text = "Mark";
             }
 
             if (account.Permission.ToString() == "Nhân viên")
             {
-                main.ComboBox.Items.Remove("EmployeeID");
+                main.ComboBox.Items.Remove("Employee ID");
                 ///
                 main.DataGridView.Columns["EmployeeID"].Visible = false;
-                main.DataGridView.Columns["Title"].ReadOnly = true;
                 ///
-                main.ButtonAdd.Enabled = false;
-                main.ButtonEdit.Enabled = true;
-                main.ButtonDelete.Enabled = false;
-                main.ButtonMore.Enabled = false;
-
-                main.ButtonMore.Text = "Send";
+                main.ButtonAdd.Enabled = true;
+                main.ButtonEdit.Enabled = false;
             }
         }
 
+        public static void RequestDetail(MainElement main)
+        {
+            main.RichTextBox.ResetText();
+            main.RichTextBox.Text = main.DataGridView.CurrentRow.Cells[main.DataGridView.CurrentCell.OwningColumn.Name].Value?.ToString();
+        }
+
+        public static void Sale(MainElement main)
+        {
+            main.RichTextBox.ResetText();
+
+            foreach (var item in List.Bill)
+            {
+                main.RichTextBox.Text += $"Bill ID: {item.ID}\nEmployee ID: {item.EmployeeID}\nCustomer name: {item.CustomerName}\nTime: {item.Time}" +
+                    $"\nTotal: {item.Total}\nPayment method: {item.PaymentMethod}\n\n";
+            }
+        }   
+        
         public static void Statistic(MainElement main)
         {
             main.ComboBox.Items.AddRange(new string[] { "Day", "Month", "Year" });
@@ -185,6 +205,7 @@ namespace FruitStoreManager.Events
             main.ButtonEdit.Enabled = false;
             main.ButtonDelete.Enabled = false;
             main.ButtonMore.Enabled = true;
+            main.NumericUpDown.Visible = false;
 
             main.ButtonMore.Text = "Detail";
         }    

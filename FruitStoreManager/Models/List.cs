@@ -3,13 +3,17 @@ using System.ComponentModel;
 
 namespace FruitStoreManager.Models
 {
-    class List
+    internal class List // contains all item in file (includes all deleted items)
     {
+        public static readonly List<Account> Account = new List<Account>();
+        public static readonly List<Bill> Bill = new List<Bill>();
         public static readonly List<BillDetail> BillDetail = new List<BillDetail>();
         public static readonly List<BillDetail> Cart = new List<BillDetail>();
+        public static readonly List<Employee> Employee = new List<Employee>();
+        public static readonly List<Product> Product = new List<Product>();
     }
 
-    class BindingList
+    internal class BindingList
     {
         public static readonly BindingList<Account> Account = new BindingList<Account>();
         public static readonly BindingList<Bill> Bill = new BindingList<Bill>();

@@ -13,31 +13,26 @@ namespace FruitStoreManager.Functions
         private static void Value(string fileName, object obj)
         {
             var oldData = File.ReadAllText(Execute.GetFilePath(fileName)).Trim();
-            var subString = oldData.Remove(oldData.Length - 2);
-
-            if (subString.EndsWith("]")) // exception substring has issue
-            {
-                subString = subString.Remove(oldData.Length - 1);
-            }
+            var subString = oldData.Remove(oldData.LastIndexOf(']'));
 
             string newData;
 
             if (subString.EndsWith("[")) // add first value
                 newData = subString + JsonConvert.SerializeObject(obj) + "]}";
-            else // another values
+            else // add another values
                 newData = subString + "," + JsonConvert.SerializeObject(obj) + "]}";
 
             File.WriteAllText(Execute.GetFilePath(fileName), newData);
-            MessageBox.Show("Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public static void Account(DataGridView dataGridView)
         {
             var account = new Account()
             {
-                ID = dataGridView.CurrentRow.Cells["ID"].Value,
+                ID = List.Account.Count,
+                Username = dataGridView.CurrentRow.Cells["Username"].Value,
                 Password = dataGridView.CurrentRow.Cells["Password"].Value,
-                Permission = dataGridView.CurrentRow.Cells["Permission"].Value
+                Permission = "Nhân viên"
             };
 
             if (!Check.Account(account)) return;
@@ -62,14 +57,14 @@ namespace FruitStoreManager.Functions
 
             var bill = new Bill()
             {
-                ID = BindingList.Bill.Count + 1,
-                EmployeeID = Check.AccountInfo.ID,
+                ID = List.Bill.Count,
+                EmployeeID = Check.AccountInfo.Username,
                 CustomerName = dataGridView.CurrentRow.Cells["CustomerName"].Value,
                 PaymentMethod = dataGridView.CurrentRow.Cells["PaymentMethod"].Value,
                 Time = DateTime.Now.ToString("dd-MM-yy hh:mm tt")
             };
 
-            if (!Check.Bill(bill)) return;
+            //if (!Check.Bill(bill)) return;
 
             // tính tổng tiền các item trong giỏ
             var total = 0;
@@ -89,12 +84,10 @@ namespace FruitStoreManager.Functions
         {
             if (!Check.Cart(dataGridView, numericUpDown)) return;
 
-            var currentRow = dataGridView.CurrentRow;
-
             // tính thành tiền cho item được thêm vào giỏ
-            var sum = numericUpDown.Value * decimal.Parse(currentRow.Cells["Price"].Value?.ToString());
+            var sum = numericUpDown.Value * decimal.Parse(dataGridView.CurrentRow.Cells["Price"].Value?.ToString());
             // tìm item có trong giỏ theo ID
-            var value = List.Cart.Find(s => s.ProductID.ToString() == currentRow.Cells["ID"].Value?.ToString());
+            var value = List.Cart.Find(s => s.ProductID.ToString() == dataGridView.CurrentRow.Cells["ID"].Value?.ToString());
 
             if (value != null) // nếu item đã có trong giỏ
             {
@@ -105,9 +98,9 @@ namespace FruitStoreManager.Functions
             var detail = new BillDetail()
             {
                 BillID = BindingList.Bill.Count,
-                ProductID = currentRow.Cells["ID"].Value,
-                ProductName = currentRow.Cells["Name"].Value,
-                Price = currentRow.Cells["Price"].Value,
+                ProductID = dataGridView.CurrentRow.Cells["ID"].Value,
+                ProductName = dataGridView.CurrentRow.Cells["Name"].Value,
+                Price = dataGridView.CurrentRow.Cells["Price"].Value,
                 Count = numericUpDown.Value,
                 Sum = (int)sum
             };
@@ -139,11 +132,12 @@ namespace FruitStoreManager.Functions
 
         public static void Employee(DataGridView dataGridView)
         {
-            var employee = new Employee()
-            {
-                ID = dataGridView.RowCount.ToString(),
+            var employee = new Employee() 
+            { 
+                ID = List.Employee.Count,
+                EmployeeID = dataGridView.CurrentRow.Cells["EmployeeID"].Value,
                 Name = dataGridView.CurrentRow.Cells["Name"].Value,
-                Address = dataGridView.CurrentRow.Cells["Address"].Value,
+                Address = dataGridView.CurrentRow.Cells["Address"],
                 PhoneNumber = dataGridView.CurrentRow.Cells["PhoneNumber"].Value,
                 Age = dataGridView.CurrentRow.Cells["Age"].Value,
                 Salary = dataGridView.CurrentRow.Cells["Salary"].Value,
@@ -153,14 +147,13 @@ namespace FruitStoreManager.Functions
             if (!Check.Employee(employee)) return;
 
             Value("employee", employee);
-            Request(employee);
-        }
+        }    
 
         public static void Product(DataGridView dataGridView)
         {
             var product = new Product()
             {
-                ID = dataGridView.RowCount.ToString(),
+                ID = List.Product.Count,
                 Name = dataGridView.CurrentRow.Cells["Name"].Value,
                 Origin = dataGridView.CurrentRow.Cells["Origin"].Value,
                 Quantity = dataGridView.CurrentRow.Cells["Quantity"].Value,
@@ -175,19 +168,18 @@ namespace FruitStoreManager.Functions
             Value("product", product);
         }
 
-        private static void Request(Employee employee)
+        public static void Request(Account account, DataGridView dataGridView)
         {
-            var request = new Request[]
+            var request = new Request()
             {
-                new Request() { EmployeeID = employee.ID, Title = "Sửa thông tin" },
-                new Request() { EmployeeID = employee.ID, Title = "Chấm công" },
-                new Request() { EmployeeID = employee.ID, Title = "Nghỉ việc"}
+                EmployeeID = account.Username,
+                Title = dataGridView.CurrentRow.Cells["Title"].Value,
+                Content = dataGridView.CurrentRow.Cells["Content"].Value,
+                Time = DateTime.Now.ToString("dd-MM-yy hh:mm tt"),
+                Reply = "Sent"
             };
 
-            foreach (var item in request)
-            {
-                Value("request", item);
-            }    
+            Value("request", request);
         }
     }
 }

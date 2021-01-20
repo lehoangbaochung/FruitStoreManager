@@ -37,6 +37,11 @@ namespace FruitStoreManager.Events
         {
             MessageBox.Show("Input value have exceeded max value!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+
+        public static void Expired()
+        {
+            MessageBox.Show("This item was expired!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }    
     }
 
     internal class Information
@@ -50,9 +55,9 @@ namespace FruitStoreManager.Events
                 MessageBox.Show("You are logged in as an employee!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        public static void Successfully()
+        public static void Success()
         {
-            MessageBox.Show("Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Success!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 
@@ -101,16 +106,6 @@ namespace FruitStoreManager.Events
             if (result == DialogResult.No) return false;
 
             else return true;
-        }
-
-        public static bool Detail()
-        {
-            var result = MessageBox.Show("Your cart is being not null. Are you sure to delete all item(s) in your cart before display details in this bill?",
-                "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.No) return false;
-
-            else return true;
-        }    
+        }   
     }    
 }

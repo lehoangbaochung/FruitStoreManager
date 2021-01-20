@@ -6,22 +6,14 @@ namespace FruitStoreManager.Functions
     {
         public static void Data(Account account)
         {
-            List.BillDetail.Clear();
-            List.Cart.Clear();
-            BindingList.Bill.Clear();
-            BindingList.Customer.Clear();
-            BindingList.Employee.Clear();
-            BindingList.Product.Clear();
-            BindingList.Request.Clear();
-            BindingList.Statistic.Clear();
-            ///
             Product();
-            Bill();
+            Bill(account);
             Request(account);
 
             if (account.Permission.ToString() == "Quản lý")
             {
                 Employee();
+                Statistic();
             }    
 
             if (account.Permission.ToString() == "Nhân viên")
@@ -33,23 +25,29 @@ namespace FruitStoreManager.Functions
 
         public static void Account()
         {
+            BindingList.Account.Clear();
+
             foreach (var item in Execute.Read("account")["account"])
             {
-                if (item["ID"] == null) return;
-
                 var account = new Account()
                 {
                     ID = item["ID"],
+                    Username = item["Username"],
                     Password = item["Password"],
                     Permission = item["Permission"]
                 };
 
-                BindingList.Account.Add(account);
+                List.Account.Add(account);
+
+                if (item["Username"] != null) BindingList.Account.Add(account);
             }
         }
 
-        private static void Bill()
+        private static void Bill(Account account)
         {
+            List.Bill.Clear();
+            BindingList.Bill.Clear();
+
             foreach (var item in Execute.Read("bill")["bill"])
             {
                 var bill = new Bill()
@@ -62,12 +60,16 @@ namespace FruitStoreManager.Functions
                     PaymentMethod = item["PaymentMethod"]
                 };
 
-                BindingList.Bill.Add(bill);
+                List.Bill.Add(bill);
+
+                if (bill.EmployeeID.Equals(account.Username)) BindingList.Bill.Add(bill);
             }
         }
 
         private static void BillDetail()
         {
+            List.BillDetail.Clear();
+
             foreach (var item in Execute.Read("billdetail")["billdetail"])
             {
                 var detail = new BillDetail()
@@ -86,10 +88,10 @@ namespace FruitStoreManager.Functions
 
         private static void Customer()
         {
+            BindingList.Customer.Clear();
+
             foreach (var item in Execute.Read("customer")["customer"])
             {
-                if (item["ID"] == null) return;
-
                 var customer = new Customer()
                 {
                     ID = item["ID"],
@@ -99,19 +101,21 @@ namespace FruitStoreManager.Functions
                     Email = item["Email"]
                 };
 
-                BindingList.Customer.Add(customer);
+                if (item["ID"] != null) BindingList.Customer.Add(customer);
             }
         }
 
         private static void Employee()
         {
+            List.Employee.Clear();
+            BindingList.Employee.Clear();
+
             foreach (var item in Execute.Read("employee")["employee"])
             {
-                if (item["ID"] == null) return;
-
-                var Employee = new Employee()
+                var employee = new Employee()
                 {
                     ID = item["ID"],
+                    EmployeeID = item["EmployeeID"],
                     Name = item["Name"],
                     Age = item["Age"],
                     Address = item["Address"],
@@ -120,16 +124,19 @@ namespace FruitStoreManager.Functions
                     Worktime = item["Worktime"]
                 };
 
-                BindingList.Employee.Add(Employee);
+                List.Employee.Add(employee);
+
+                if (item["ID"] != null) BindingList.Employee.Add(employee);
             }
         }
 
         private static void Product()
         {
+            List.Product.Clear();
+            BindingList.Product.Clear();
+
             foreach (var item in Execute.Read("product")["product"])
             {
-                if (item["ID"] == null) return;
-
                 var product = new Product()
                 {
                     ID = item["ID"],
@@ -141,41 +148,64 @@ namespace FruitStoreManager.Functions
                     Expiration= item["Expiration"],
                     Description = item["Description"]
                 };
-                
-                BindingList.Product.Add(product);
+
+                List.Product.Add(product);
+
+                // not bind expired items
+                var date = System.Convert.ToDateTime(item["ImportDate"]);
+                date = date.AddDays((double)item["Expiration"] / 7);
+
+                if (System.DateTime.Compare(date, System.DateTime.Now) < 0 && item["ID"] != null) BindingList.Product.Add(product);
             }
         }
 
         private static void Request(Account account)
         {
+            BindingList.Request.Clear();
+
             foreach (var item in Execute.Read("request")["request"])
             {
-                if (account.Permission.ToString() == "Quản lý")
-                {
-                    if (item["Status"] == null) return;
-                }
-
                 var request = new Request()
                 {
                     EmployeeID = item["EmployeeID"],
                     Title = item["Title"],
                     Content = item["Content"],
                     Time = item["Time"],
-                    Status = item["Status"]
+                    Reply = item["Reply"]
                 };
 
-                BindingList.Request.Add(request);
+                if (account.Permission.ToString() == "Quản lý")
+                {
+                    BindingList.Request.Add(request);
+                }    
+                
+                if (account.Permission.ToString() == "Nhân viên")
+                {
+                    if (account.Username.ToString() == request.EmployeeID.ToString())
+                    {
+                        BindingList.Request.Add(request);
+                    }    
+                }    
             }
         }
 
         private static void Statistic()
         {
+            BindingList.Statistic.Clear();
+
+            var sum = 0;
+
+            foreach (var item in List.Bill)
+            {
+                sum += System.Convert.ToInt32(item.Total);
+            }   
+            
             var statistic = new Statistic() 
             { 
-                Time = "All",
+                Time = "Total",
                 Employee = BindingList.Employee.Count,
                 Product = BindingList.Product.Count,
-                Sale = BindingList.Bill.Count
+                Sale = sum
             };
 
             BindingList.Statistic.Add(statistic);

@@ -104,7 +104,7 @@
     <Compile Include="Events\Notification.cs" />
     <Compile Include="Functions\Add.cs" />
     <Compile Include="Events\Check.cs" />
-    <Compile Include="Functions\Delete.cs" />
+    <Compile Include="Functions\Remove.cs" />
     <Compile Include="Functions\Edit.cs" />
     <Compile Include="Models\Element.cs" />
     <Compile Include="Models\List.cs" />

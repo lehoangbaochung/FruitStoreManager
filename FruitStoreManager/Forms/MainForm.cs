@@ -17,27 +17,6 @@ namespace FruitStoreManager.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //dgvTable.AutoGenerateColumns = false;
-
-            //DataTable dt = new DataTable();
-            //dt.Columns.Add("Name", typeof(String));
-            //dt.Columns.Add("Money", typeof(String));
-            //dt.Rows.Add(new object[] { "Hi", 100 });
-            //dt.Rows.Add(new object[] { "Ki", 30 });
-
-            //DataGridViewComboBoxColumn money = new DataGridViewComboBoxColumn();
-            //var list11 = new List<string>() { "10", "30", "80", "100" };
-            //money.DataSource = list11;
-            //money.HeaderText = "Money";
-            //money.DataPropertyName = "Money";
-
-            //DataGridViewTextBoxColumn name = new DataGridViewTextBoxColumn();
-            //name.HeaderText = "Name";
-            //name.DataPropertyName = "Name";
-
-            //dgvTable.DataSource = dt;
-            //dgvTable.Columns.AddRange(name, money);
-
             main = new MainElement()
             {
                 Form = this,
@@ -57,6 +36,7 @@ namespace FruitStoreManager.Forms
 
             Get.Data(Check.AccountInfo);
             Display.Form(Check.AccountInfo, main);
+            Display.Product(Check.AccountInfo, main);
         }
 
         private void tabCtrl_SelectedIndexChanged(object sender, EventArgs e)
@@ -88,14 +68,6 @@ namespace FruitStoreManager.Forms
                 case "Statistic":
                     Display.Statistic(main);
                     break;
-            }
-
-            if (dgvTable.Columns.Contains("ID"))
-            {
-                if (tabCtrl.SelectedTab.Text == "Account")
-                    dgvTable.Columns["ID"].Visible = true;
-                else
-                    dgvTable.Columns["ID"].Visible = false;
             }
 
             dgvTable.ReadOnly = true;
@@ -140,9 +112,7 @@ namespace FruitStoreManager.Forms
                 }  
                 else if (btnAdd.Text == "Save")
                 {
-                    var result = MessageBox.Show("Are you sure to add?", "Add", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (result == DialogResult.No) return;
+                    if (!Question.Add()) return;
                     ///
                     btnAdd.Text = "Add";
                     dgvTable.ReadOnly = true;
@@ -154,16 +124,9 @@ namespace FruitStoreManager.Forms
                     btnSearch.Enabled = true;
                     ///
                     Execute.Insert(main);
+                    Information.Success();
                 }    
             }    
-        }
-
-        private void btnLogOut_Click(object sender, EventArgs e)
-        {
-            if (!Question.Logout()) return;
-
-            new LoginForm().Show();
-            Close();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -200,15 +163,49 @@ namespace FruitStoreManager.Forms
                     btnMore.Enabled = true;
                     ///
                     Execute.Update(main);
-                    MessageBox.Show("Successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Information.Success();
                 }
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (!Question.Delete()) return;
+
+            if (tabCtrl.SelectedTab.Text == "Product" && Check.AccountInfo.Permission.ToString() == "Nhân viên")
+            {
+                Remove.Item(main.DataGridView);
+                Display.Cart(main);
+
+                if (List.Cart.Count == 0)
+                {
+                    btnEdit.Enabled = false;
+                    btnDelete.Enabled = false;
+                }
+                else
+                {
+                    btnEdit.Enabled = true;
+                    btnDelete.Enabled = true;
+                }
+            }
+            else
+            {
+                Execute.Delete(main);
+                Information.Success();
             }
         }
 
         private void btnMore_Click(object sender, EventArgs e)
         {
             if (btnMore.Text == "Detail")
-                Display.BillDetail(main);
+            {
+                if (main.TabControl.SelectedTab.Text == "Bill") Display.BillDetail(main);
+
+                if (main.TabControl.SelectedTab.Text == "Request") Display.RequestDetail(main);
+
+                if (main.TabControl.SelectedTab.Text == "Statistic") Display.Sale(main);
+            }    
+                
             else if (btnMore.Text == "Cart")
                 Display.Cart(main);
         }
@@ -240,5 +237,13 @@ namespace FruitStoreManager.Forms
                     break;
             }
         }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            if (!Question.Logout()) return;
+
+            new LoginForm().Show();
+            Close();
+        } 
     }
 }

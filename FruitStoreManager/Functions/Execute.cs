@@ -1,13 +1,13 @@
-﻿using FruitStoreManager.Models;
+﻿using FruitStoreManager.Events;
+using FruitStoreManager.Models;
 using Newtonsoft.Json;
 using System.IO;
-using System.Windows.Forms;
 
 namespace FruitStoreManager.Functions
 {
     internal class Execute
     {
-        private static readonly string FolderPath = Directory.CreateDirectory(@"D:\FruitStoreManager\Resources").FullName;
+        private static readonly string FolderPath = Directory.CreateDirectory(@"D:\Code\C#\Winform Apps\FruitStoreManager\FruitStoreManager\Resources").FullName;
 
         public static string GetFilePath(string fileName)
         {
@@ -77,6 +77,9 @@ namespace FruitStoreManager.Functions
                 case "Product":
                     Add.Product(main.DataGridView);
                     break;
+                case "Request":
+                    Add.Request(Check.AccountInfo, main.DataGridView);
+                    break;
             }    
         }
 
@@ -85,32 +88,39 @@ namespace FruitStoreManager.Functions
             switch (main.TabControl.SelectedTab.Text)
             {
                 case "Account":
-                    Edit.Data(main, "account");
+                    Edit.Data(main.DataGridView, "account");
                     break;
                 case "Bill":
-                    Edit.Data(main, "bill");
+                    Edit.Data(main.DataGridView, "bill");
                     break;
                 case "Customer":
-                    Edit.Data(main, "customer");
+                    Edit.Data(main.DataGridView, "customer");
                     break;
                 case "Employee":
-                    Edit.Data(main, "employee");
+                    Edit.Data(main.DataGridView, "employee");
                     break;
                 case "Product":
-                    Edit.Data(main, "product");
+                    Edit.Data(main.DataGridView, "product");
+                    break;
+                case "Request":
+                    Edit.Data(main.DataGridView, "request");
                     break;
             }
         }
 
-        public static void Delete(DataGridView dataGridView, string fileName)
+        public static void Delete(MainElement main)
         {
-            var oldData = File.ReadAllText(GetFilePath(fileName));
-
-            dynamic jsonObj = JsonConvert.DeserializeObject(oldData);
-            jsonObj[fileName][dataGridView.CurrentRow.Index][dataGridView.CurrentRow.Cells[0].OwningColumn.Name] = null;
-
-            string newData = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-            File.WriteAllText(GetFilePath(fileName), newData);
+            switch (main.TabControl.SelectedTab.Text)
+            {
+                case "Account":
+                    Remove.Account(main.DataGridView);
+                    Display.Account(main);
+                    break;
+                case "Product":
+                    Remove.Product(main.DataGridView);
+                    Display.Product(Check.AccountInfo, main);
+                    break;
+            }
         }
     }
 }

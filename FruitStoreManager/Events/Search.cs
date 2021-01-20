@@ -19,7 +19,7 @@ namespace FruitStoreManager.Events
         {
             switch (main.ComboBox.SelectedItem)
             {
-                case "ID":
+                case "Username":
                     accounts = BindingList.Account.ToList().FindAll(s => s.ID.ToString().ToLower().ToLower().Contains(main.TextBox.Text.ToLower()));
                     main.DataGridView.DataSource = new BindingList<Account>(accounts);
                     break;
@@ -80,6 +80,10 @@ namespace FruitStoreManager.Events
         {
             switch (main.ComboBox.SelectedItem)
             {
+                case "Employee ID":
+                    employees = BindingList.Employee.ToList().FindAll(s => s.EmployeeID.ToString().ToLower().Contains(main.TextBox.Text.ToLower()));
+                    main.DataGridView.DataSource = new BindingList<Employee>(employees);
+                    break;
                 case "Name":
                     employees = BindingList.Employee.ToList().FindAll(s => s.Name.ToString().ToLower().Contains(main.TextBox.Text.ToLower()));
                     main.DataGridView.DataSource = new BindingList<Employee>(employees);
@@ -146,8 +150,8 @@ namespace FruitStoreManager.Events
         {
             switch (main.ComboBox.SelectedItem)
             {
-                case "EmployeeID":
-                    requests = BindingList.Request.ToList().FindAll(s => s.EmployeeID.ToString().Contains(main.TextBox.Text));
+                case "Employee ID":
+                    requests = BindingList.Request.ToList().FindAll(s => s.EmployeeID.ToString().ToLower().Contains(main.TextBox.Text.ToLower()));
                     main.DataGridView.DataSource = new BindingList<Request>(requests);
                     break;
                 case "Title":
@@ -163,7 +167,7 @@ namespace FruitStoreManager.Events
                     main.DataGridView.DataSource = new BindingList<Request>(requests);
                     break;
                 case "Status":
-                    requests = BindingList.Request.ToList().FindAll(s => s.Status.ToString().ToLower().Contains(main.TextBox.Text.ToLower()));
+                    requests = BindingList.Request.ToList().FindAll(s => s.Reply.ToString().ToLower().Contains(main.TextBox.Text.ToLower()));
                     main.DataGridView.DataSource = new BindingList<Request>(requests);
                     break;
             }

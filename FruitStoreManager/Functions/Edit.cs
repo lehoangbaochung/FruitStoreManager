@@ -1,5 +1,6 @@
 ﻿using FruitStoreManager.Models;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,7 +17,7 @@ namespace FruitStoreManager.Functions
 
             foreach (var item in List.Cart)
             {
-                jsonObj["product"][int.Parse(item.ProductID.ToString()) - 1]["Quantity"] -= item.Count;
+                jsonObj["product"][Convert.ToInt32(item.ProductID)]["Quantity"] -= item.Count;
             }
 
             string newData = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
@@ -36,12 +37,25 @@ namespace FruitStoreManager.Functions
             dataGridView.DataSource = BindingList.Product;
         }
 
-        public static void Data(MainElement main, string fileName)
+        public static void Customer(DataGridView dataGridView, string fileName)
+        {
+            var index = BindingList.Customer.ToList().FindIndex(s => s.Name == dataGridView.CurrentRow.Cells["Name"]);
+
+            var oldData = File.ReadAllText(Execute.GetFilePath(fileName)).Trim();
+
+            dynamic jsonObj = JsonConvert.DeserializeObject(oldData);
+            jsonObj[fileName][index][dataGridView.CurrentCell.OwningColumn.Name] = dataGridView.CurrentCell.Value?.ToString();
+
+            string newData = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+            File.WriteAllText(Execute.GetFilePath(fileName), newData);
+        }
+
+        public static void Data(DataGridView dataGridView, string fileName)
         {
             var oldData = File.ReadAllText(Execute.GetFilePath(fileName)).Trim();
 
             dynamic jsonObj = JsonConvert.DeserializeObject(oldData);
-            jsonObj[fileName][main.DataGridView.CurrentRow.Index][main.DataGridView.CurrentCell.OwningColumn.Name] = main.DataGridView.CurrentCell.Value?.ToString();
+            jsonObj[fileName][dataGridView.CurrentRow.Index][dataGridView.CurrentCell.OwningColumn.Name] = dataGridView.CurrentCell.Value?.ToString();
 
             string newData = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
             File.WriteAllText(Execute.GetFilePath(fileName), newData);

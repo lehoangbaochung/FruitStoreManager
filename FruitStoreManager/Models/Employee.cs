@@ -1,8 +1,9 @@
 ﻿namespace FruitStoreManager.Models
 {
-    class Employee
+    internal class Employee
     {
         public object ID { get; set; }
+        public object EmployeeID { get; set; }
         public object Name { get; set; }
         public object Address { get; set; }
         public object PhoneNumber { get; set; }

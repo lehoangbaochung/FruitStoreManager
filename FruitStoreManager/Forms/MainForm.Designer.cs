@@ -266,6 +266,7 @@
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnAdd
             // 
@@ -300,6 +301,7 @@
             this.nudCount.Size = new System.Drawing.Size(51, 20);
             this.nudCount.TabIndex = 11;
             this.nudCount.ThousandsSeparator = true;
+            this.nudCount.Visible = false;
             // 
             // MainForm
             // 
